@@ -1,0 +1,65 @@
+{
+	"info": {
+		"_postman_id": "63ac2747-2505-465b-b438-52bd0a1b3a0a",
+		"name": "School Management",
+		"description": "### Endpoints\n\n#### 1\\. Add School\n\n- **URL**: `/add-school`\n    \n- **Method**: POST\n    \n- **Request Body**:\n    \n\n``` json\n{\n  \"name\": \"City High School\",\n  \"address\": \"123 Main Street\",\n  \"latitude\": 40.7128,\n  \"longitude\": -74.0060\n}\n\n ```\n\n#### 2\\. List Schools\n\n- **URL**: `/list-schools`\n    \n- **Method**: GET\n    \n- **Query Parameters**:\n    \n    - `latitude` (optional)\n        \n    - `longitude` (optional)\n        \n\n### Example Requests\n\n**Add School:**\n\n``` bash\ncurl -X POST http://localhost/add-school \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"name\": \"Central Academy\",\n    \"address\": \"456 Education Road\",\n    \"latitude\": 34.0522,\n    \"longitude\": -118.2437\n  }'\n\n ```\n\n**List Schools (Without Sorting):**\n\n``` bash\ncurl http://localhost/list-schools\n\n ```\n\n**List Schools (With Sorting):**\n\n``` bash\ncurl http://localhost/list-schools?latitude=40.7128&longitude=-74.0060\n\n ```\n\n**Environment Variables in Postman:**\n\n- `base_url`: `http://your-server-ip`",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40591841",
+		"_collection_link": "https://www.postman.com/spacecraft-pilot-82011859/school-managment/collection/iq4qwq0/school-management?action=share&source=collection_link&creator=40591841"
+	},
+	"item": [
+		{
+			"name": "GET /list-sschools",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/list-schools?latitude=40.7128&longitude=-74.0060",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"list-schools"
+					],
+					"query": [
+						{
+							"key": "latitude",
+							"value": "40.7128"
+						},
+						{
+							"key": "longitude",
+							"value": "-74.0060"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST /add-school",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{base_url}}/add-school",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"add-school"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
