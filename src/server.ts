@@ -25,7 +25,7 @@ app.get('/health', async (_, res: Response) => {
 
 
 // Add School API
-app.post('/add-school', async (req: Request, res: Response, next: NextFunction) => {
+app.post('/addSchool', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const validationResult = SchoolCreateSchema.safeParse(req.body);
 
@@ -54,7 +54,7 @@ app.post('/add-school', async (req: Request, res: Response, next: NextFunction) 
 });
 
 // List Schools API
-app.get('/list-schools', async (req: Request, res: Response, next: NextFunction) => {
+app.get('/listSchools', async (req: Request, res: Response, next: NextFunction) => {
   try {
     const rawParams = {
       latitude: req.query.latitude ? parseFloat(req.query.latitude as string) : undefined,
