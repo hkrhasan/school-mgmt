@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      - DATABASE_URL
+      - NODE_ENV
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    command: >
+      sh -c "npm run prisma:migrate && npm run prisma:generate && npm run start"
+
+  mysql:
+    image: mysql:8.0
+    env_file:
+      - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u${DB_USER}", "-p${DB_PASSWORD}"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  mysql-data:
