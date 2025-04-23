@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    build: .
+    image: hkrhasandev/school-management-api:v0.0.1 
     env_file:
       - .env
     environment:
@@ -13,9 +13,9 @@ services:
         condition: service_healthy
     networks:
       - app-network
-    volumes:
-      - ./:/app
-      - /app/node_modules
+    # volumes:
+    #   - ./:/app
+    #   - /app/node_modules
     command: >
       sh -c "npm run prisma:migrate && 
              npm run prisma:generate && 
