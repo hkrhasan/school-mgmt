@@ -3,8 +3,6 @@ version: '3.8'
 services:
   app:
     build: .
-    ports:
-      - "3000:3000"
     env_file:
       - .env
     environment:
@@ -13,11 +11,15 @@ services:
     depends_on:
       mysql:
         condition: service_healthy
+    networks:
+      - app-network
     volumes:
       - ./:/app
       - /app/node_modules
     command: >
-      sh -c "npm run prisma:migrate && npm run prisma:generate && npm run start"
+      sh -c "npm run prisma:migrate && 
+             npm run prisma:generate && 
+             npm run start"
 
   mysql:
     image: mysql:8.0
@@ -26,15 +28,31 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
-    ports:
-      - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
+    networks:
+      - app-network
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u${DB_USER}", "-p${DB_PASSWORD}"]
       interval: 5s
       timeout: 10s
       retries: 5
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    networks:
+      - app-network
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    command: [nginx-debug, '-g', 'daemon off;']
+
+networks:
+  app-network:
+    driver: bridge
 
 volumes:
   mysql-data:
